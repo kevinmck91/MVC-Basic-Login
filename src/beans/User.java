@@ -52,8 +52,6 @@ public class User {
 				return false;
 			}
 			
-			
-			
 			if(password.length() < 8){
 				message = "Password must be 8 chars";
 				return false;

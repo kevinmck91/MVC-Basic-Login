@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form action="/mvcController/MVController" method="post" >
+<form action="/MVC_Basic_Login/MVCController" method="post" >
 <input type="hidden" name="action" value="dologin" />
 Email: <input type="text" name="email" value="<%= request.getAttribute("email") %>" />
 Password: <input type="text" name="password" value="<%= request.getAttribute("password") %>" />
