@@ -72,6 +72,15 @@ public class MVCController extends HttpServlet {
 			request.setAttribute("password", password);
 
 			User user = new User(email, password);
+			
+			if (user.validate()) {
+				request.getRequestDispatcher("/loginsuccess.jsp").forward(
+						request, response);
+			} else {
+				request.setAttribute("validationmessage", user.getMessage());
+				request.getRequestDispatcher("/login.jsp").forward(request,
+						response);
+			}
 
 			
 		}

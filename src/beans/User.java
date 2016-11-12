@@ -35,4 +35,34 @@ public class User {
 	public String getMessage() {
 		return message;
 	}
+	
+	public boolean validate(){
+		/*	
+			if(email == null){
+				message="no email set";
+				return false;
+			}
+			if(password == null){
+				message="no PW set";
+				return false;
+			}
+		*/
+			if(!email.matches("\\w+@\\w+\\.\\w+")){
+				message="invalid email set";
+				return false;
+			}
+			
+			
+			
+			if(password.length() < 8){
+				message = "Password must be 8 chars";
+				return false;
+			}
+			else if(password.matches("\\w*\\s+\\w*")){
+				message = "PW cant have spaces";
+				return false;
+			}
+			
+			return true;
+		}
 }
