@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<a href="/MVCform/Controller?action=login">Click here to log in</a>
+<a href="/MVC_Basic_Login/MVCController?action=login">Click here to log in</a>
 
 </body>
 </html>

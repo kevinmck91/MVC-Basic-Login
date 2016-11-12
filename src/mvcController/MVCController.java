@@ -35,16 +35,26 @@ public class MVCController extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String action = request.getParameter("action");
+
+		if (action == null) {
+			request.getRequestDispatcher("/index.jsp").forward(request,
+					response);
+		} else if (action.equals("login")) {
+
+			request.setAttribute("email", "");
+			request.setAttribute("password", "");
+			request.setAttribute("validationmessage", "");
+
+			request.getRequestDispatcher("/login.jsp").forward(request,
+					response);
+		}
+	}
+		
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
