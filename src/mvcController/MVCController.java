@@ -1,11 +1,14 @@
 package mvcController;
 
 import java.io.IOException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import beans.User;
 
 /**
  * Servlet implementation class MVCController
@@ -56,7 +59,23 @@ public class MVCController extends HttpServlet {
 		
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String action = request.getParameter("action");
+
+		if (action == null) {
+			request.getRequestDispatcher("/index.jsp").forward(request,
+					response);
+		} else if (action.equals("dologin")) {
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+
+			request.setAttribute("email", email);
+			request.setAttribute("password", password);
+
+			User user = new User(email, password);
+
+			
+		}
 	}
+		
 
 }
