@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Account {
 
 	private Connection conn;
-	private static String message = "Incorrect Details";
+	private static String message = "Incorrect Login Details";
 
 	public Account(Connection conn){
 		this.conn = conn;

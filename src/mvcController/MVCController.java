@@ -22,13 +22,14 @@ import beans.User;
 public class MVCController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private DataSource ds;
+	private DataSource ds;	
 
 	public MVCController() {
 		super();
 	}
 
 	public void init(ServletConfig config) throws ServletException {
+		//Create the DataSource
 		try {
 			InitialContext initContext = new InitialContext();
 			Context env = (Context)initContext.lookup("java:comp/env");
@@ -89,8 +90,7 @@ public class MVCController extends HttpServlet {
 			request.setAttribute("validationmessage", "");
 			request.setAttribute("message", "");
 
-			request.getRequestDispatcher("/login.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("/login.jsp").forward(request,response);
 		}
 
 
@@ -114,12 +114,13 @@ public class MVCController extends HttpServlet {
 
 		out.println("Connection to JDNI Succesful");
 
-		//////	Action Controller
-
 		if (action == null) {
 			request.getRequestDispatcher("/index.jsp").forward(request,response);
-
 		} 
+		/* if Action = login, query the database for the Email and Password
+		 * if match, forward to login success
+		 * if unmatch, return to login and display validation message
+		*/
 		else if (action.equals("dologin")) {
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
@@ -128,7 +129,7 @@ public class MVCController extends HttpServlet {
 			request.setAttribute("email", email);
 			request.setAttribute("password", password);
 
-			User user = new User(email, password);
+//			User user = new User(email, password);
 
 			Account account = new Account(conn);
 
