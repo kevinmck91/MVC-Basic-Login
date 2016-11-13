@@ -6,20 +6,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import beans.User;
 
-/**
- * Servlet implementation class MVCController
- */
 public class MVCController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	private DataSource ds;
   
     public MVCController() {
         super();
@@ -27,17 +29,26 @@ public class MVCController extends HttpServlet {
     }
 
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+		try {
+			InitialContext initContext = new InitialContext();
+			Context env = (Context)initContext.lookup("java:comp/env");
+			
+			ds = (DataSource)env.lookup("jdbc/login");
+			
+		} catch (NamingException e) {
+			throw new ServletException();
+		}
 	}
 
 	public void destroy() {
-		// TODO Auto-generated method stub
+		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	//-------DATABASE CONNECTION
-		PrintWriter out = response.getWriter();
+//-------JDBC DATABASE CONNECTION
+		/*		
+  		PrintWriter out = response.getWriter();
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -50,7 +61,7 @@ public class MVCController extends HttpServlet {
 		Connection conn = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myDatabase", "root", "Data326");} catch (SQLException e) {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myDatabase", "root", "Data2326");} catch (SQLException e) {
 			out.print("cant connect to data base");
 			return;
 		}
@@ -63,6 +74,31 @@ public class MVCController extends HttpServlet {
 			out.print("cant close data base");
 			return;
 		}
+		 */
+
+//-------JNDI DATABASE CONNECTION
+		
+		Connection conn = null;
+		PrintWriter out = response.getWriter();
+		
+		try {
+		 conn = ds.getConnection();
+		} catch (SQLException e) {
+			out.println("Connection Failure");
+			e.printStackTrace();
+			return;
+		}
+		
+		
+		out.println("Connection Succesful");
+		
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		String action = request.getParameter("action");
 
