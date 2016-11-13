@@ -132,7 +132,6 @@ public class MVCController extends HttpServlet {
 
 			Account account = new Account(conn);
 
-
 			if(account.login(email, password)){
 				request.getRequestDispatcher("/loginsuccess.jsp").forward(request, response);
 			}else{
