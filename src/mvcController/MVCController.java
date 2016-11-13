@@ -112,9 +112,9 @@ public class MVCController extends HttpServlet {
 			return;
 		}
 
-		out.println("Connection Succesful");
-		
-	//////	Action Controller
+		out.println("Connection to JDNI Succesful");
+
+		//////	Action Controller
 
 		if (action == null) {
 			request.getRequestDispatcher("/index.jsp").forward(request,response);
@@ -129,16 +129,17 @@ public class MVCController extends HttpServlet {
 			request.setAttribute("password", password);
 
 			User user = new User(email, password);
-			
+
 			Account account = new Account(conn);
-			
+
+
 			if(account.login(email, password)){
 				request.getRequestDispatcher("/loginsuccess.jsp").forward(request, response);
 			}else{
 				request.setAttribute("message",  Account.getMessage());
 				request.getRequestDispatcher("/login.jsp").forward(request,response);
 			}
-			
+
 			/*
 			if (user.validate()) {
 				request.getRequestDispatcher("/loginsuccess.jsp").forward(request, response);
@@ -146,11 +147,11 @@ public class MVCController extends HttpServlet {
 				request.setAttribute("validationmessage", user.getMessage());
 				request.getRequestDispatcher("/login.jsp").forward(request,response);
 			}
-			*/
+			 */
 		}
 
 
-	//-------JNDI DATABASE CONNECTION CLOSE
+		//-------JNDI DATABASE CONNECTION CLOSE
 		try {
 			conn.close();
 		} catch (SQLException e) {
