@@ -16,7 +16,7 @@ Email: <input type="text" name="email" value="<%= request.getAttribute("email") 
 Password: <input type="text" name="password" value="<%= request.getAttribute("password") %>" />
 <input type="submit"value="OK" />
 </form>
-<h2><%= request.getAttribute("validationmessage") %></h2>
+<h2><%= request.getAttribute("message") %></h2>
 </div>
 
 

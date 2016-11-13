@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import database.Account;
 import beans.User;
 
 public class MVCController extends HttpServlet {
@@ -25,7 +26,6 @@ public class MVCController extends HttpServlet {
 
 	public MVCController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public void init(ServletConfig config) throws ServletException {
@@ -76,8 +76,6 @@ public class MVCController extends HttpServlet {
 		}
 		 */
 
-
-
 		String action = request.getParameter("action");
 
 		if (action == null) {
@@ -89,6 +87,7 @@ public class MVCController extends HttpServlet {
 			request.setAttribute("email", "");
 			request.setAttribute("password", "");
 			request.setAttribute("validationmessage", "");
+			request.setAttribute("message", "");
 
 			request.getRequestDispatcher("/login.jsp").forward(request,
 					response);
@@ -115,7 +114,7 @@ public class MVCController extends HttpServlet {
 
 		out.println("Connection Succesful");
 		
-	//////	Action
+	//////	Action Controller
 
 		if (action == null) {
 			request.getRequestDispatcher("/index.jsp").forward(request,response);
@@ -124,20 +123,30 @@ public class MVCController extends HttpServlet {
 		else if (action.equals("dologin")) {
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
+			String message = request.getParameter("message");
 
 			request.setAttribute("email", email);
 			request.setAttribute("password", password);
 
 			User user = new User(email, password);
-
+			
+			Account account = new Account(conn);
+			
+			if(account.login(email, password)){
+				request.getRequestDispatcher("/loginsuccess.jsp").forward(request, response);
+			}else{
+				request.setAttribute("message",  Account.getMessage());
+				request.getRequestDispatcher("/login.jsp").forward(request,response);
+			}
+			
+			/*
 			if (user.validate()) {
-				request.getRequestDispatcher("/loginsuccess.jsp").forward(
-						request, response);
+				request.getRequestDispatcher("/loginsuccess.jsp").forward(request, response);
 			} else {
 				request.setAttribute("validationmessage", user.getMessage());
-				request.getRequestDispatcher("/login.jsp").forward(request,
-						response);
-			}	
+				request.getRequestDispatcher("/login.jsp").forward(request,response);
+			}
+			*/
 		}
 
 
