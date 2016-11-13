@@ -20,54 +20,54 @@ import beans.User;
 
 public class MVCController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	private DataSource ds;
-  
-    public MVCController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	public MVCController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public void init(ServletConfig config) throws ServletException {
 		try {
 			InitialContext initContext = new InitialContext();
 			Context env = (Context)initContext.lookup("java:comp/env");
-			
+
 			ds = (DataSource)env.lookup("jdbc/login");
-			
+
 		} catch (NamingException e) {
 			throw new ServletException();
 		}
 	}
 
 	public void destroy() {
-		
+
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-//-------JDBC DATABASE CONNECTION
+
+		//-------JDBC DATABASE CONNECTION
 		/*		
   		PrintWriter out = response.getWriter();
-		
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-		
+
 		} catch (ClassNotFoundException e) {
 			out.print("cant load driver");
 			e.printStackTrace();
 		}
-		
+
 		Connection conn = null;
-		
+
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myDatabase", "root", "Data2326");} catch (SQLException e) {
 			out.print("cant connect to data base");
 			return;
 		}
-		
+
 		out.print("connected to database");
-		
+
 		try {
 			conn.close();
 		} catch (SQLException e) {
@@ -76,36 +76,14 @@ public class MVCController extends HttpServlet {
 		}
 		 */
 
-//-------JNDI DATABASE CONNECTION
-		
-		Connection conn = null;
-		PrintWriter out = response.getWriter();
-		
-		try {
-		 conn = ds.getConnection();
-		} catch (SQLException e) {
-			out.println("Connection Failure");
-			e.printStackTrace();
-			return;
-		}
-		
-		
-		out.println("Connection Succesful");
-		
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+
+
 		String action = request.getParameter("action");
 
 		if (action == null) {
 			request.getRequestDispatcher("/index.jsp").forward(request,
 					response);
-			
+
 		} else if (action.equals("login")) {
 
 			request.setAttribute("email", "");
@@ -115,15 +93,35 @@ public class MVCController extends HttpServlet {
 			request.getRequestDispatcher("/login.jsp").forward(request,
 					response);
 		}
+
+
 	}	
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
+		//-------JNDI DATABASE CONNECTION OPEN
+
+		Connection conn = null;
+		PrintWriter out = response.getWriter();
+
+		try {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			out.println("Connection Failure");
+			e.printStackTrace();
+			return;
+		}
+
+		out.println("Connection Succesful");
+		
+	//////	Action
+
 		if (action == null) {
-			request.getRequestDispatcher("/index.jsp").forward(request,
-					response);
-		} else if (action.equals("dologin")) {
+			request.getRequestDispatcher("/index.jsp").forward(request,response);
+
+		} 
+		else if (action.equals("dologin")) {
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 
@@ -131,7 +129,7 @@ public class MVCController extends HttpServlet {
 			request.setAttribute("password", password);
 
 			User user = new User(email, password);
-			
+
 			if (user.validate()) {
 				request.getRequestDispatcher("/loginsuccess.jsp").forward(
 						request, response);
@@ -141,5 +139,15 @@ public class MVCController extends HttpServlet {
 						response);
 			}	
 		}
+
+
+	//-------JNDI DATABASE CONNECTION CLOSE
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+
 	}
 }
