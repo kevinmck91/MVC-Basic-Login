@@ -175,13 +175,14 @@ public class MVCController extends HttpServlet {
 				request.getRequestDispatcher("/register.jsp").forward(request, response);
 			}else {
 				User user = new User(email, password);
+				Account account = new Account(conn);
 
 				if(!user.validate()) {
 					request.setAttribute("validationmessage", user.getMessage());
 					request.getRequestDispatcher("/register.jsp").forward(request, response);
 				}				else {
 					try {			
-							Account.create(email, password);
+							account.create(email, password);
 							request.getRequestDispatcher("/createsuccess.jsp").forward(request, response);
 			
 					} catch (SQLException e) {
