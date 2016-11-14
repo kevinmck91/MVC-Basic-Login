@@ -51,9 +51,8 @@ public class Account {
 		}
 	}
 
-	public static void create(String email, String password) throws SQLException {
-		
-		String sql = "insert into logindetails (email, password) values (?, ?)";
+	public void create(String email, String password) throws SQLException {
+		String sql = "insert into users (email, password) values (?, ?)";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -63,7 +62,6 @@ public class Account {
 		stmt.executeUpdate();
 		
 		stmt.close();
-	
 	}
 	
 	public static String getMessage() {
