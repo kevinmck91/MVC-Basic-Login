@@ -187,6 +187,7 @@ public class MVCController extends HttpServlet {
 			
 					} catch (SQLException e) {
 						request.getRequestDispatcher("/error.jsp").forward(request, response);
+						e.printStackTrace();
 					}
 				}
 

@@ -52,7 +52,7 @@ public class Account {
 	}
 
 	public void create(String email, String password) throws SQLException {
-		String sql = "insert into users (email, password) values (?, ?)";
+		String sql = "insert into logindetails (email, password) values (?, ?)";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
