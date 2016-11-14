@@ -177,21 +177,13 @@ public class MVCController extends HttpServlet {
 				User user = new User(email, password);
 
 				if(!user.validate()) {
-					// Password or email address has wrong format.
 					request.setAttribute("validationmessage", user.getMessage());
 					request.getRequestDispatcher("/register.jsp").forward(request, response);
 				}				else {
-					try {
-						if(Account.exists(email)) {
-							// This email address already exists in the user database.
-							request.setAttribute("message", "An account with this email address already exists");
-							request.getRequestDispatcher("/register.jsp").forward(request, response);
-						}
-						else {
-							// We create create the account.
+					try {			
 							Account.create(email, password);
 							request.getRequestDispatcher("/createsuccess.jsp").forward(request, response);
-						}
+			
 					} catch (SQLException e) {
 						request.getRequestDispatcher("/error.jsp").forward(request, response);
 					}
