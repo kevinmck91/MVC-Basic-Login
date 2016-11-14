@@ -92,12 +92,12 @@ public class MVCController extends HttpServlet {
 
 			request.getRequestDispatcher("/login.jsp").forward(request,response);
 		}
-		
+
 		else if (action.equals("register")) {
 
 			request.setAttribute("email", "");
 			request.setAttribute("password", "");
-			request.setAttribute("registermessage", "");
+			request.setAttribute("validationmessage", "");
 
 			request.getRequestDispatcher("/register.jsp").forward(request,
 					response);
@@ -130,7 +130,7 @@ public class MVCController extends HttpServlet {
 		/* if Action = login, query the database for the Email and Password
 		 * if match, forward to login success
 		 * if unmatch, return to login and display validation message
-		*/
+		 */
 		else if (action.equals("dologin")) {
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
@@ -139,13 +139,15 @@ public class MVCController extends HttpServlet {
 			request.setAttribute("email", email);
 			request.setAttribute("password", password);
 
-//			User user = new User(email, password);
+			//			User user = new User(email, password);
 
 			Account account = new Account(conn);
 
 			if(account.login(email, password)){
 				request.getRequestDispatcher("/loginsuccess.jsp").forward(request, response);
-			}else{
+			}
+
+			else{
 				request.setAttribute("message",  Account.getMessage());
 				request.getRequestDispatcher("/login.jsp").forward(request,response);
 			}
@@ -158,6 +160,31 @@ public class MVCController extends HttpServlet {
 				request.getRequestDispatcher("/login.jsp").forward(request,response);
 			}
 			 */
+		}else if (action.equals("doregister")){
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			String repeatPassword = request.getParameter("repeatpassword");
+
+			request.setAttribute("email", email);
+			request.setAttribute("password", "");
+			request.setAttribute("repeatpassword", "");
+			request.setAttribute("registermessage", "");
+			request.setAttribute("validationmessage", "");
+
+			if(!password.equals(repeatPassword)) {
+				// Passwords don't match.
+				request.setAttribute("registermessage", "Passwords do not match.");
+				request.getRequestDispatcher("/register.jsp").forward(request, response);
+			}else {
+				User user = new User(email, password);
+
+				if(!user.validate()) {
+					// Password or email address has wrong format.
+					request.setAttribute("validationmessage", user.getMessage());
+					request.getRequestDispatcher("/register.jsp").forward(request, response);
+				}
+
+			}
 		}
 
 

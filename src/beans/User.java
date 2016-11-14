@@ -37,7 +37,7 @@ public class User {
 	}
 	
 	public boolean validate(){
-		/*	
+			
 			if(email == null){
 				message="no email set";
 				return false;
@@ -46,7 +46,7 @@ public class User {
 				message="no PW set";
 				return false;
 			}
-		*/
+		
 			if(!email.matches("\\w+@\\w+\\.\\w+")){
 				message="invalid email set";
 				return false;
