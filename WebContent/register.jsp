@@ -19,6 +19,7 @@
 	</form>
 	
 	<h2><%= request.getAttribute("validationmessage") %></h2>
+	<h2><%= request.getAttribute("registermessage") %></h2>
 
 	</div>
 
