@@ -10,7 +10,9 @@
 </head>
 <body>
 <div class="login-block">
-<a href="/MVC_Basic_Login/MVCController?action=login">Click here to log in</a>
+<a href="/MVC_Basic_Login/MVCController?action=login">Click here to Log In</a>
+<br>
+<a href="/MVC_Basic_Login/MVCController?action=register">Click here to Register</a>
 </div>
 </body>
 </html>

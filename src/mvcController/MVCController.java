@@ -92,6 +92,16 @@ public class MVCController extends HttpServlet {
 
 			request.getRequestDispatcher("/login.jsp").forward(request,response);
 		}
+		
+		else if (action.equals("register")) {
+
+			request.setAttribute("email", "");
+			request.setAttribute("password", "");
+			request.setAttribute("registermessage", "");
+
+			request.getRequestDispatcher("/register.jsp").forward(request,
+					response);
+		}
 
 
 	}	
